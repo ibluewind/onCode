@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://oncode.local/protocol/schemas/json/tool-response.schema.json",
+  "title": "ToolResponse payload",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["call_id", "status"],
+  "properties": {
+    "call_id": { "type": "string", "minLength": 1 },
+    "status": {
+      "type": "string",
+      "enum": ["SUCCESS", "FAILED", "PARTIAL", "ACCEPTED", "RUNNING", "CANCELLED", "REJECTED", "TIMEOUT"]
+    },
+    "result": {},
+    "error": { "$ref": "tool-error.schema.json" },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "duration_ms": { "type": "integer", "minimum": 0 }
+      }
+    }
+  }
+}

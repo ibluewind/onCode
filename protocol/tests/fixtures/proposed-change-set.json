@@ -1,0 +1,12 @@
+{
+  "change_set_id": "CHG-018f0000-0000-7000-8000-000000000031",
+  "workspace_id": "WS-018f0000-0000-7000-8000-000000000012",
+  "changes": [
+    {
+      "path": "src/main/java/com/example/Greeter.java",
+      "operation": "MODIFY",
+      "base_hash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "content": "class Greeter { String hello() { return \"hi\"; } }"
+    }
+  ]
+}

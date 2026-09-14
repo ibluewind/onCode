@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://oncode.local/protocol/schemas/json/proposed-change-set.schema.json",
+  "title": "ProposedChangeSet",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["change_set_id", "changes"],
+  "properties": {
+    "change_set_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string" },
+    "base_workspace_revision": { "type": "string" },
+    "changes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "operation"],
+        "properties": {
+          "path": { "type": "string", "minLength": 1 },
+          "operation": { "type": "string", "enum": ["CREATE", "MODIFY", "DELETE", "RENAME"] },
+          "base_hash": { "type": "string" },
+          "content": { "type": "string" },
+          "target_path": { "type": "string" }
+        }
+      }
+    }
+  }
+}

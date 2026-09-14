@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://oncode.local/protocol/schemas/json/heartbeat.schema.json",
+  "title": "Heartbeat",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["agent_id", "protocol_version", "timestamp"],
+  "properties": {
+    "agent_id": { "type": "string", "minLength": 1 },
+    "protocol_version": { "type": "string", "pattern": "^oncode-tool/[0-9]+\\.[0-9]+$" },
+    "timestamp": { "type": "string", "minLength": 1 }
+  }
+}

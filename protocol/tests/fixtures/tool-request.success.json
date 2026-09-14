@@ -1,0 +1,22 @@
+{
+  "protocol": "oncode-tool/1.0",
+  "message_type": "REQUEST",
+  "message_id": "MSG-018f0000-0000-7000-8000-000000000001",
+  "timestamp": "2026-09-09T07:00:00.000Z",
+  "session_id": "SES-018f0000-0000-7000-8000-000000000010",
+  "project_id": "PRJ-018f0000-0000-7000-8000-000000000011",
+  "workspace_id": "WS-018f0000-0000-7000-8000-000000000012",
+  "workflow_id": "WF-018f0000-0000-7000-8000-000000000013",
+  "work_item_id": "WI-018f0000-0000-7000-8000-000000000014",
+  "actor": { "type": "AGENT", "id": "senior-developer-agent" },
+  "target": { "type": "TOOL", "id": "workspace.read_file" },
+  "payload": {
+    "call_id": "CALL-018f0000-0000-7000-8000-000000000020",
+    "tool": "workspace.read_file",
+    "arguments": {
+      "workspace_id": "WS-018f0000-0000-7000-8000-000000000012",
+      "path": "src/main/java/com/example/Greeter.java"
+    },
+    "options": { "timeout_ms": 30000 }
+  }
+}

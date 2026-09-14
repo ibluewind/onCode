@@ -1,0 +1,19 @@
+{
+  "protocol": "oncode-tool/1.0",
+  "message_type": "RESPONSE",
+  "message_id": "MSG-018f0000-0000-7000-8000-000000000003",
+  "timestamp": "2026-09-09T07:00:01.000Z",
+  "session_id": "SES-018f0000-0000-7000-8000-000000000010",
+  "workspace_id": "WS-018f0000-0000-7000-8000-000000000012",
+  "payload": {
+    "call_id": "CALL-018f0000-0000-7000-8000-000000000021",
+    "status": "FAILED",
+    "error": {
+      "code": "WORKSPACE_FILE_NOT_FOUND",
+      "category": "WORKSPACE",
+      "message": "Requested file does not exist.",
+      "retryable": false,
+      "details": { "path": "missing.java" }
+    }
+  }
+}

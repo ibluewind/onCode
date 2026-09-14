@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://oncode.local/protocol/schemas/json/actual-diff.schema.json",
+  "title": "ActualDiff",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["change_set_id", "diff", "diff_hash"],
+  "properties": {
+    "change_set_id": { "type": "string", "minLength": 1 },
+    "diff": { "type": "string" },
+    "diff_hash": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string" }
+  }
+}

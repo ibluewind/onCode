@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://oncode.local/protocol/schemas/json/workflow-event.schema.json",
+  "title": "WorkflowEvent payload",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["event"],
+  "properties": {
+    "event": { "type": "string", "minLength": 1 },
+    "execution_id": { "type": "string" },
+    "data": { "type": "object" }
+  }
+}

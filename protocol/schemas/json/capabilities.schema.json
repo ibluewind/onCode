@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://oncode.local/protocol/schemas/json/capabilities.schema.json",
+  "title": "Capabilities result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["agent_version", "platform", "capabilities"],
+  "properties": {
+    "agent_version": { "type": "string", "minLength": 1 },
+    "platform": {
+      "type": "object",
+      "required": ["os", "arch"],
+      "additionalProperties": false,
+      "properties": {
+        "os": { "type": "string" },
+        "arch": { "type": "string" }
+      }
+    },
+    "capabilities": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "workspace": { "type": "boolean" },
+        "project_index": { "type": "boolean" },
+        "build": { "type": "array", "items": { "type": "string" } },
+        "test": { "type": "array", "items": { "type": "string" } },
+        "git": { "type": "boolean" },
+        "languages": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

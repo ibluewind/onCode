@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://oncode.local/protocol/schemas/json/approval.schema.json",
+  "title": "Approval",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["approval_id", "decision"],
+  "properties": {
+    "approval_id": { "type": "string", "minLength": 1 },
+    "type": {
+      "type": "string",
+      "enum": ["DESIGN", "CODE_CHANGE", "COMMAND", "DEPENDENCY_INSTALL", "GIT_COMMIT", "GIT_PUSH", "DESTRUCTIVE_OPERATION"]
+    },
+    "decision": { "type": "string", "enum": ["APPROVE", "REJECT"] },
+    "reason": { "type": "string" },
+    "diff_hash": { "type": "string" },
+    "resource_id": { "type": "string" }
+  }
+}

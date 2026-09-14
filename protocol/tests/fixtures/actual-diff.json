@@ -1,0 +1,6 @@
+{
+  "change_set_id": "CHG-018f0000-0000-7000-8000-000000000031",
+  "workspace_id": "WS-018f0000-0000-7000-8000-000000000012",
+  "diff": "--- a/src/main/java/com/example/Greeter.java\n+++ b/src/main/java/com/example/Greeter.java\n",
+  "diff_hash": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+}

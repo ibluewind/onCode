@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://oncode.local/protocol/schemas/json/tool-request.schema.json",
+  "title": "ToolRequest payload",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["call_id", "tool", "arguments"],
+  "properties": {
+    "call_id": { "type": "string", "minLength": 1 },
+    "tool": { "type": "string", "minLength": 1 },
+    "arguments": { "type": "object" },
+    "options": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "timeout_ms": { "type": "integer", "minimum": 1 }
+      }
+    }
+  }
+}

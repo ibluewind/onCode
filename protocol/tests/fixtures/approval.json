@@ -1,0 +1,7 @@
+{
+  "approval_id": "APR-018f0000-0000-7000-8000-000000000030",
+  "type": "CODE_CHANGE",
+  "decision": "APPROVE",
+  "diff_hash": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "resource_id": "CHG-018f0000-0000-7000-8000-000000000031"
+}

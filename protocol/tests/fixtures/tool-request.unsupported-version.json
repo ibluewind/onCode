@@ -1,0 +1,11 @@
+{
+  "protocol": "oncode-tool/2.0",
+  "message_type": "REQUEST",
+  "message_id": "MSG-018f0000-0000-7000-8000-000000000099",
+  "timestamp": "2026-09-09T07:00:00.000Z",
+  "payload": {
+    "call_id": "CALL-018f0000-0000-7000-8000-000000000099",
+    "tool": "system.ping",
+    "arguments": {}
+  }
+}
