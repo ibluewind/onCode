@@ -4,6 +4,18 @@
 
 ---
 
+## ISS-002 — capabilities result에 PHASE_01 필드 미반영
+
+- 발견일: 2026-09-14
+- 해결일: 2026-09-14
+- Phase: 1
+- 원인: Phase 0 capabilities 계약이 `agent_version`/`platform`/`capabilities`만 정의했고, PHASE_01의 `protocol_version`·`supported_tools`는 Local Agent에만 먼저 들어갔다.
+- 조치: JSON Schema·proto·Go DTO·fixture·계약 테스트에 필드를 추가(proto 필드 번호 4, 5). Local Agent는 `messages.CapabilitiesResult`를 직접 사용하도록 정리.
+- 관련 커밋 / 파일: `protocol/schemas/json/capabilities.schema.json`, `protocol/schemas/proto/oncode_tool.proto`, `protocol/messages/messages.go`, `protocol/tests/fixtures/capabilities.json`, `protocol/contract/contract_test.go`, `local-agent/internal/tools/system/system.go`
+- 재발 방지: PHASE_01 tool result 필드는 `protocol/` 계약과 동시에 갱신. Local Agent 전용 확장 DTO를 두지 않는다.
+
+---
+
 ## ISS-001 — Go 툴체인 없음
 
 - 발견일: 2026-09-09

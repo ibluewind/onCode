@@ -228,6 +228,21 @@ func TestCorePayloadFixtures(t *testing.T) {
 				t.Fatal(err)
 			}
 		}},
+		{"capabilities.json", "capabilities.schema.json", func(t *testing.T, raw []byte) {
+			var c messages.CapabilitiesResult
+			if err := json.Unmarshal(raw, &c); err != nil {
+				t.Fatal(err)
+			}
+			if c.ProtocolVersion != versioning.Current {
+				t.Fatalf("protocol_version=%q", c.ProtocolVersion)
+			}
+			if len(c.SupportedTools) == 0 {
+				t.Fatal("supported_tools required")
+			}
+			if c.AgentVersion == "" || c.Platform.OS == "" {
+				t.Fatalf("incomplete capabilities: %+v", c)
+			}
+		}},
 		{"workflow-event.json", "envelope.schema.json", func(t *testing.T, raw []byte) {
 			var env messages.Envelope
 			if err := json.Unmarshal(raw, &env); err != nil {
@@ -277,6 +292,11 @@ func TestProtobufJSONLogicalFieldMapping(t *testing.T) {
 		t.Fatal(err)
 	}
 	if err := contract.ContainsAll(names["Heartbeat"], "agent_id", "protocol_version", "timestamp"); err != nil {
+		t.Fatal(err)
+	}
+	if err := contract.ContainsAll(names["CapabilitiesResult"],
+		"agent_version", "platform", "capabilities", "protocol_version", "supported_tools",
+	); err != nil {
 		t.Fatal(err)
 	}
 	if err := contract.ContainsAll(names["Approval"], "approval_id", "decision"); err != nil {

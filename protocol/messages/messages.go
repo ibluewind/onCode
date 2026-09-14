@@ -238,9 +238,11 @@ type Capabilities struct {
 }
 
 type CapabilitiesResult struct {
-	AgentVersion string       `json:"agent_version"`
-	Platform     Platform     `json:"platform"`
-	Capabilities Capabilities `json:"capabilities"`
+	AgentVersion    string       `json:"agent_version"`
+	ProtocolVersion string       `json:"protocol_version"`
+	Platform        Platform     `json:"platform"`
+	Capabilities    Capabilities `json:"capabilities"`
+	SupportedTools  []string     `json:"supported_tools"`
 }
 
 type ApprovalDecision string

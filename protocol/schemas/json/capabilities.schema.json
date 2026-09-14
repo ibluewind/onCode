@@ -4,9 +4,10 @@
   "title": "Capabilities result",
   "type": "object",
   "additionalProperties": false,
-  "required": ["agent_version", "platform", "capabilities"],
+  "required": ["agent_version", "protocol_version", "platform", "capabilities", "supported_tools"],
   "properties": {
     "agent_version": { "type": "string", "minLength": 1 },
+    "protocol_version": { "type": "string", "pattern": "^oncode-tool/[0-9]+\\.[0-9]+$" },
     "platform": {
       "type": "object",
       "required": ["os", "arch"],
@@ -27,6 +28,10 @@
         "git": { "type": "boolean" },
         "languages": { "type": "array", "items": { "type": "string" } }
       }
+    },
+    "supported_tools": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
     }
   }
 }

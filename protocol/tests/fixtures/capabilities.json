@@ -1,0 +1,26 @@
+{
+  "agent_version": "0.1.0-dev",
+  "protocol_version": "oncode-tool/1.0",
+  "platform": {
+    "os": "windows",
+    "arch": "amd64"
+  },
+  "capabilities": {
+    "workspace": true,
+    "project_index": false,
+    "git": false
+  },
+  "supported_tools": [
+    "system.get_capabilities",
+    "system.ping",
+    "build.run",
+    "git.diff",
+    "git.status",
+    "test.run",
+    "workspace.apply_changes",
+    "workspace.propose_changes",
+    "workspace.read_file",
+    "workspace.read_files",
+    "workspace.search"
+  ]
+}

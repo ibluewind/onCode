@@ -137,6 +137,8 @@ message CapabilitiesResult {
   string agent_version = 1 [json_name = "agent_version"];
   Platform platform = 2 [json_name = "platform"];
   Capabilities capabilities = 3 [json_name = "capabilities"];
+  string protocol_version = 4 [json_name = "protocol_version"];
+  repeated string supported_tools = 5 [json_name = "supported_tools"];
 }
 
 message Approval {
