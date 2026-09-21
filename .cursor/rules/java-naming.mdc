@@ -1,0 +1,34 @@
+---
+description: Java 네이밍 (Google Java Style). server 모듈
+globs: "**/*.java"
+alwaysApply: false
+---
+
+# Java 네이밍
+
+Google Java Style과 일반적인 Java 관례를 따른다. `server/`에 적용한다.
+
+| 대상 | 규칙 | 예 |
+|------|------|-----|
+| 패키지 | 점 구분 소문자, 하이픈/언더스코어 없음 | `com.oncode.server.workflow` |
+| 클래스/인터페이스/enum/record | PascalCase, 명사 | `WorkflowEngine`, `ApprovalPort` |
+| 메소드 | camelCase, 동사 | `transitionTo`, `acquireLease` |
+| 필드·지역변수 | camelCase | `workItemId`, `leaseExpiresAt` |
+| 상수 | UPPER_SNAKE | `MAX_RETRY_COUNT` |
+| 불리언 | `is`/`has`/`can` | `isConsumed()`, `hasLease` |
+| 제네릭 | 한 글자 대문자 | `T`, `E` |
+
+## 매핑
+
+- DB `work_item_id` → Java `workItemId`
+- JSON/protocol `work_item_id` → Java `workItemId` (직렬화 시에만 snake_case)
+
+## 파일
+
+공개 톱레벨 타입당 파일 하나. 파일명 = 타입명 + `.java`.
+
+## 금지
+
+- `IWorkflowService`, `WorkflowServiceImpl` 남발 (구현이 하나면 구현 클래스에 도메인 이름)
+- `m_`, `_name` 같은 접두 필드
+- 약어를 섞어 쓰기: `Id`/`ID`는 `Id`로 통일 (`workItemId`)

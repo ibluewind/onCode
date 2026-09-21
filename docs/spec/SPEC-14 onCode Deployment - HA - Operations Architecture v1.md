@@ -1026,7 +1026,7 @@ PROD
 
 # 63. 폐쇄망 개발 환경
 
-DEV에서도 가능한 한 Production과 동일한 내부 의존성을 사용한다.
+onCode **서비스를 운영하는** DEV 환경은 가능한 한 Production과 동일한 내부 의존성을 사용한다.
 
 ```text
 Nexus
@@ -1035,6 +1035,8 @@ Internal Git
 
 Internal LLM
 ```
+
+이 절은 폐쇄망에 설치된 onCode 인스턴스와, 그 인스턴스가 다루는 사용자 프로젝트에 적용한다. onCode 소스 저장소를 개발하는 기여자의 로컬 툴체인(공개 JDK, Maven Central 등)을 강제하지 않는다.
 
 ---
 
@@ -2194,7 +2196,9 @@ Production deploy
 
 # 150. Dependency Pinning
 
-onCode Server Build도 모든 Dependency를 내부 Nexus에서 재현 가능하게 해야 한다.
+onCode가 **사용자 워크스페이스**에서 수행하거나 제안하는 Dependency 작업은 내부 Nexus에서 재현 가능해야 한다. Public Registry fallback은 허용하지 않는다.
+
+onCode 플랫폼 저장소 자체의 개발·빌드(Maven Central, 공개 JDK 등)는 이 조항의 대상이 아니다. 플랫폼 바이너리/이미지의 운영 배포 재현은 §151을 따른다.
 
 ---
 

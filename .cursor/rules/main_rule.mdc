@@ -2,5 +2,6 @@
 alwaysApply: true
 ---
 Always follow AGENTS.md and `.cursor/rules/work-process.mdc`.
+Follow `.cursor/rules/comments.mdc` and the language naming rules (`java-naming`, `go-naming`, `sql-naming`, `protocol-naming`, `typescript-naming`).
 Before substantial implementation, read the current task and relevant onCode architecture documents.
-Write a plan under `docs/plans/` first. End the day with `docs/logs/` and `docs/HANDOFF.md`.
+Write a plan under `docs/plans/` first. After tests, write `docs/results/`. End the day with `docs/logs/` and `docs/HANDOFF.md`.

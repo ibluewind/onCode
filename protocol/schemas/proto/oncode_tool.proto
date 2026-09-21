@@ -3,6 +3,8 @@ syntax = "proto3";
 package oncode.tool.v1;
 
 option go_package = "oncode/protocol/gen/toolv1;toolv1";
+option java_package = "com.oncode.protocol.tool.v1";
+option java_multiple_files = true;
 
 // Logical onCode Tool Protocol v1. JSON field names are the protocol names.
 // protobuf is a transport adapter; do not introduce a second semantic model.
@@ -170,4 +172,10 @@ message ActualDiff {
   string diff = 2 [json_name = "diff"];
   string diff_hash = 3 [json_name = "diff_hash"];
   string workspace_id = 4 [json_name = "workspace_id"];
+}
+
+// LocalAgentSession is the ADR-003 transport. Logical protocol remains Envelope.
+// The Local Agent is the gRPC client and opens the outbound stream.
+service LocalAgentSession {
+  rpc Open(stream Envelope) returns (stream Envelope);
 }

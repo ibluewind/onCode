@@ -5,7 +5,7 @@
 ## Overview files
 
 1. `01_ARCHITECTURE.md` — compressed architecture overview
-2. `02_IMPLEMENTATION_RULES.md` — non-negotiable implementation invariants
+2. `02_IMPLEMENTATION_RULES.md` — runtime invariants when onCode implements a user project (not this repo's toolchain)
 3. `03_ADR_SUMMARY.md` — ADR-001 ~ ADR-012 decisions
 4. `04_IMPLEMENTATION_ROADMAP.md` — staged implementation plan
 
@@ -32,6 +32,7 @@ and the task document for the assigned phase under docs/tasks/.
 
 Implement only the assigned phase.
 Before writing code, inspect the repository and produce an implementation plan.
-Do not violate docs/overview/02_IMPLEMENTATION_RULES.md.
+Encode docs/overview/02_IMPLEMENTATION_RULES.md as platform runtime behavior toward user workspaces.
+Do not treat those rules as this repository's own Maven/Go/JDK policy.
 Do not proceed to later phases unless explicitly instructed.
 ```

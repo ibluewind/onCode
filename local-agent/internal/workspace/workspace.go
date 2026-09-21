@@ -13,11 +13,11 @@ import (
 
 // Workspace is a registered local workspace root.
 type Workspace struct {
-	ID               string
-	ProjectID        string
-	RootPath         string // absolute, canonical
-	RegisteredAt     time.Time
-	CurrentRevision  int64
+	ID              string
+	ProjectID       string
+	RootPath        string // absolute, canonical
+	RegisteredAt    time.Time
+	CurrentRevision int64
 }
 
 // Registry tracks registered workspaces in memory (Phase 1 persistence can follow).
@@ -62,6 +62,24 @@ func (r *Registry) Register(projectID, rootPath string) (*Workspace, error) {
 	r.byID[wid] = ws
 	r.mu.Unlock()
 	return ws, nil
+}
+
+// Sole은 등록된 워크스페이스가 하나일 때만 그 복사본을 돌려준다.
+// 없거나 둘 이상이면 WORKSPACE_NOT_FOUND다. 서버가 ws-local을 보내도 등록 루트를 고른다.
+func (r *Registry) Sole() (*Workspace, error) {
+	if r == nil {
+		return nil, mustErr(protoerr.WorkspaceNotFound, "workspace registry is nil")
+	}
+	r.mu.RLock()
+	defer r.mu.RUnlock()
+	if len(r.byID) != 1 {
+		return nil, mustErr(protoerr.WorkspaceNotFound, "workspace_id required unless exactly one workspace is registered")
+	}
+	for _, ws := range r.byID {
+		cp := *ws
+		return &cp, nil
+	}
+	return nil, mustErr(protoerr.WorkspaceNotFound, "workspace not registered")
 }
 
 // Get returns a registered workspace copy or WORKSPACE_NOT_FOUND.

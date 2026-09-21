@@ -1,0 +1,45 @@
+---
+description: PostgreSQL 테이블·컬럼 snake_case 및 COMMENT 필수
+globs: "**/*.sql"
+alwaysApply: false
+---
+
+# SQL / PostgreSQL 네이밍
+
+PostgreSQL 관례를 따른다. 테이블·컬럼 식별자는 따옴표 없이 쓴다 (소문자 snake_case만 허용).
+
+## 테이블
+
+- `snake_case`, **단수형**, 영어. SPEC 엔티티와 맞춘다 (`WORK_ITEM` → `work_item`)
+- 접두어 `tbl_`, `t_` 금지
+- 예약어 사용 금지
+
+## 컬럼
+
+- `snake_case`
+- PK: `{table}_id` (예: `work_item_id`). SPEC에 이름이 있으면 SPEC을 우선
+- FK: 참조 테이블과 동일한 `{table}_id`
+- 불리언: `is_`, `has_` (`is_consumed`)
+- 시각: `*_at` (`created_at`, `updated_at`, `lease_expires_at`)
+- 개수/크기: `*_count`, `*_bytes` 등 단위를 이름에 넣는다
+
+## 주석 (필수)
+
+모든 테이블·컬럼에 `COMMENT ON`을 둔다. 마이그레이션 SQL이 출처다. ORM 애너테이션만으로 대체하지 않는다.
+
+```sql
+CREATE TABLE work_item (
+  work_item_id text PRIMARY KEY,
+  created_at   timestamptz NOT NULL
+);
+
+COMMENT ON TABLE work_item IS '개발자 요청 단위. 워크플로보다 수명이 길다.';
+COMMENT ON COLUMN work_item.work_item_id IS '워크 아이템 식별자 (WI-...).';
+COMMENT ON COLUMN work_item.created_at IS '생성 시각 (UTC).';
+```
+
+## 인덱스 / 제약
+
+- 인덱스: `idx_{table}_{columns}`
+- Unique: `uq_{table}_{columns}`
+- FK: `fk_{table}_{column}`

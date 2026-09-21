@@ -1,0 +1,30 @@
+---
+description: Go 네이밍 (Effective Go). local-agent, protocol
+globs: "**/*.go"
+alwaysApply: false
+---
+
+# Go 네이밍
+
+Effective Go / Go wiki를 따른다. `local-agent/`, `protocol/`에 적용한다.
+
+| 대상 | 규칙 | 예 |
+|------|------|-----|
+| 패키지 | 짧은 소문자, 언더스코어 없음 | `workspace`, `tools` |
+| 내보낸 타입·함수 | PascalCase (MixedCaps) | `ProposalStore`, `ReadFile` |
+| 비공개 | camelCase | `baseHash`, `validatePath` |
+| 상수 | MixedCaps, 전부 대문자 금지 | `DefaultTimeout`, `maxRetries` |
+| 이니셜 | 전부 대문자 | `ID`, `URL`, `JSON` (`workItemID`) |
+| 인터페이스 | 동작이면 `-er` | `Reader`, `LeaseHolder` |
+| 파일 | 소문자, `_test.go` / `foo_windows.go` | `path.go`, `path_test.go` |
+
+## 매핑
+
+- JSON `work_item_id` → Go `WorkItemID` + `` `json:"work_item_id"` ``
+- DB 컬럼 `work_item_id` → Go `WorkItemID`
+
+## 금지
+
+- `GetWorkItem` 식 불필요한 `Get` 접두 (필드는 `WorkItem()`, 계산이면 동사)
+- `this`, `self` 대신 짧은 리시버 (`s *Store`)
+- stutter: 패키지 `workspace`의 타입 `WorkspaceWorkspace`

@@ -5,6 +5,7 @@ import (
 	"os"
 	"path/filepath"
 	"runtime"
+	"strconv"
 )
 
 const (
@@ -12,6 +13,10 @@ const (
 	DefaultMaxFileBytes     = 2 * 1024 * 1024 // 2 MiB
 	DefaultStateDirName     = "oncode-agent"
 	DefaultMaxSearchResults = 200
+	// DefaultIdeIPCBind is loopback-only (ADR-004). Non-loopback binds are rejected.
+	DefaultIdeIPCBind = "127.0.0.1"
+	// DefaultIdeIPCPort 0 asks the OS for an ephemeral port; the IDE reads ide-ipc.json.
+	DefaultIdeIPCPort = 0
 )
 
 // DefaultSearchExcludeDirs are skipped during workspace.search (PHASE_01).
@@ -25,6 +30,12 @@ type Config struct {
 	AgentVersion string
 	StateDir     string
 	MaxFileBytes int64
+	// IdeIPCBind is the IDE WebSocket listen host. Must be a loopback IP.
+	IdeIPCBind string
+	// IdeIPCPort is the IDE WebSocket port. Zero selects an ephemeral port.
+	IdeIPCPort int
+	// ServerGRPCAddr is host:port of the central server LocalAgentSession. Empty skips outbound gRPC.
+	ServerGRPCAddr string
 }
 
 // Load returns defaults suitable for Phase 1 development.
@@ -33,6 +44,8 @@ func Load() (Config, error) {
 	cfg := Config{
 		AgentVersion: DefaultAgentVersion,
 		MaxFileBytes: DefaultMaxFileBytes,
+		IdeIPCBind:   DefaultIdeIPCBind,
+		IdeIPCPort:   DefaultIdeIPCPort,
 	}
 	if v := os.Getenv("ONCODE_AGENT_VERSION"); v != "" {
 		cfg.AgentVersion = v
@@ -57,6 +70,19 @@ func Load() (Config, error) {
 
 	if err := os.MkdirAll(cfg.StateDir, 0o700); err != nil {
 		return Config{}, fmt.Errorf("create state dir: %w", err)
+	}
+	if v := os.Getenv("ONCODE_IDE_IPC_BIND"); v != "" {
+		cfg.IdeIPCBind = v
+	}
+	if v := os.Getenv("ONCODE_IDE_IPC_PORT"); v != "" {
+		port, err := strconv.Atoi(v)
+		if err != nil || port < 0 || port > 65535 {
+			return Config{}, fmt.Errorf("ONCODE_IDE_IPC_PORT must be 0–65535, got %q", v)
+		}
+		cfg.IdeIPCPort = port
+	}
+	if v := os.Getenv("ONCODE_SERVER_GRPC_ADDR"); v != "" {
+		cfg.ServerGRPCAddr = v
 	}
 	return cfg, nil
 }

@@ -7,3 +7,21 @@
 *.out
 /vendor/
 **/target/
+ide/vscode/node_modules/
+ide/vscode/out/
+ide/vscode/*.vsix
+
+# Local Cursor MCP secrets (tokens). Do not commit.
+.cursor/mcp.json
+
+# Java / Maven / IDE
+*.class
+*.jar
+!**/maven-wrapper.jar
+*.war
+*.ear
+.idea/
+*.iml
+.classpath
+.project
+.settings/

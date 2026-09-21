@@ -1,0 +1,23 @@
+---
+description: TypeScript 네이밍 (IDE 등). camelCase/PascalCase
+globs: "**/*.ts, **/*.tsx"
+alwaysApply: false
+---
+
+# TypeScript 네이밍
+
+일반적인 TypeScript/JavaScript 관례를 따른다. 향후 IDE 확장에 적용한다.
+
+| 대상 | 규칙 | 예 |
+|------|------|-----|
+| 파일 | kebab-case 또는 컴포넌트는 PascalCase | `chat-panel.ts`, `ChatPanel.tsx` |
+| 클래스·컴포넌트·타입·인터페이스 | PascalCase | `ChatPanel`, `ApprovalState` |
+| 함수·변수 | camelCase | `submitApproval` |
+| 상수 | UPPER_SNAKE | `MAX_DIFF_BYTES` |
+| 불리언 | `is`/`has`/`can` | `isApproved` |
+
+## 매핑
+
+- JSON/protocol `work_item_id` → TS `workItemId` (직렬화 시에만 snake_case)
+
+인터페이스에 `I` 접두를 붙이지 않는다 (`ApprovalState`, `IApprovalState` 아님).

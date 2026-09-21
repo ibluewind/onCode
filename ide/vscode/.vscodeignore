@@ -1,0 +1,5 @@
+# VSIX에는 번들 엔트리와 아이콘만 넣는다. 루트 .gitignore의 out/node_modules 제외를 덮어쓴다.
+**
+!package.json
+!out/main.js
+!media/icon.png

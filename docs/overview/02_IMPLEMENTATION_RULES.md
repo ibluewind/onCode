@@ -1,8 +1,14 @@
 # onCode Mandatory Implementation Rules
 
-These rules are architectural invariants.
+## Scope / 적용 범위
 
-If a requested implementation conflicts with these rules, do not silently work around them. Report the conflict.
+These rules are architectural invariants of **onCode in operation**. They apply when the completed platform is used to implement, review, build, or change a **user project / developer workspace**.
+
+이 문서는 onCode를 **완성한 뒤**, onCode로 다른 프로젝트를 구현할 때 지켜야 할 규칙이다. onCode 저장소 자체를 개발·빌드·테스트하는 절차에는 적용하지 않는다.
+
+When implementing onCode itself, treat these as **runtime product requirements to encode**, not as this repository's toolchain policy. Public JDKs, Maven Central, and other public toolchains may be used to build onCode.
+
+If a requested *onCode-assisted* change to a user project conflicts with these rules, do not silently work around them. Report the conflict.
 
 ## 1. Workspace Boundary
 
@@ -67,6 +73,8 @@ PROPOSE → APPROVE → APPLY
 39. Unknown execution outcome MUST NOT be blindly retried for side-effecting operations.
 
 ## 7. Dependencies
+
+These constraints apply to dependency search, resolve, and install **inside a workspace that onCode is changing**. They do not apply to building the onCode platform repository.
 
 40. Public package registries are prohibited at runtime.
 41. Internal Nexus is the only allowed dependency source.

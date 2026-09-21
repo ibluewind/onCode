@@ -6,9 +6,9 @@ import (
 	"oncode/protocol/messages"
 )
 
-// Transport is the Server ↔ Local Agent communication abstraction.
-// Phase 1 may use an in-memory harness; gRPC will implement this later (ADR-003).
-// Tool handlers must not depend on transport-specific types.
+// Transport is the Server ↔ Local Agent communication abstraction (ADR-003).
+// Stream is the gRPC adapter; Memory remains the in-process harness.
+// Tool handlers must not depend on protobuf or gRPC generated types.
 type Transport interface {
 	Connect(ctx context.Context) error
 	Register(ctx context.Context, agentID string) error

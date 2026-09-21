@@ -1,0 +1,34 @@
+# onCode 로컬 인프라 (Docker Compose)
+#
+# CodeGEN(127.0.0.1:5434, codegen DB)과 분리한다.
+# Nexus는 이 compose에 넣지 않는다.
+#
+#   docker compose -f infra/docker-compose.yml up -d
+#   docker compose -f infra/docker-compose.yml down
+
+name: oncode
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: oncode-postgres
+    ports:
+      # 이 PC에서 5433–5436은 HRE/CodeGEN이 사용 중. CodeGEN은 5434.
+      - "127.0.0.1:5437:5432"
+    environment:
+      POSTGRES_USER: oncode
+      POSTGRES_PASSWORD: oncode
+      POSTGRES_DB: oncode
+    volumes:
+      - ./postgres/init:/docker-entrypoint-initdb.d:ro
+      - oncode-pg-data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U oncode -d oncode"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  oncode-pg-data:
+    name: oncode-pg-data

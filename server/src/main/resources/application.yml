@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: oncode-server
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5437/oncode
+    username: oncode
+    password: oncode
+  flyway:
+    enabled: true
+    schemas: oncode
+    default-schema: oncode
+    locations: classpath:db/migration
+
+server:
+  # 이 PC에서 8080은 hre-keycloak이 사용 중. HTTP와 gRPC(9443)를 분리한다.
+  port: 18080
+
+oncode:
+  workflow:
+    lease-owner: oncode-server
+    lease-duration-seconds: 30
+  approval:
+    ttl-seconds: 3600
+  tool-gateway:
+    default-timeout-ms: 5000
+  grpc:
+    port: 9443
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true

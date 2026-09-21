@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.2.0 https://maven.apache.org/xsd/settings-1.2.0.xsd">
+  <!--
+    onCode Maven settings. Passed with `mvn -s` so this file replaces ~/.m2/settings.xml
+    for this project. Do not mirror to the machine-local CodeGEN Nexus (127.0.0.1:8081).
+    Repositories fall through to Maven Central.
+  -->
+  <offline>false</offline>
+</settings>

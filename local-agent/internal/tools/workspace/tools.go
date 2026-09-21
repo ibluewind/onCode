@@ -3,11 +3,13 @@ package workspacetool
 import (
 	"context"
 	"encoding/json"
+	"strings"
 
 	"oncode/local-agent/internal/policy"
 	"oncode/local-agent/internal/tools"
 	"oncode/local-agent/internal/workspace"
 	protoerr "oncode/protocol/errors"
+	"oncode/protocol/ids"
 	"oncode/protocol/messages"
 )
 
@@ -115,8 +117,11 @@ func Register(reg *tools.Registry, deps Deps) {
 	})
 
 	reg.Register(ToolProposeChanges, func(ctx context.Context, req *messages.ToolRequestPayload) (*messages.ToolResponsePayload, error) {
-		cs, err := parseProposedChangeSet(req.Arguments)
+		cs, err := parseProposedChangeSet(req.Arguments, deps.Workspaces, deps.MaxFileBytes)
 		if err != nil {
+			if _, ok := err.(*protoerr.Error); ok {
+				return nil, err
+			}
 			return fail(req.CallID, protoerr.InvalidArgument, err.Error()), nil
 		}
 		ws, err := deps.Workspaces.Get(cs.WorkspaceID)
@@ -166,7 +171,10 @@ func Register(reg *tools.Registry, deps Deps) {
 	})
 }
 
-func parseProposedChangeSet(args map[string]any) (messages.ProposedChangeSet, error) {
+func parseProposedChangeSet(args map[string]any, workspaces *workspace.Registry, maxBytes int64) (messages.ProposedChangeSet, error) {
+	if args == nil {
+		return messages.ProposedChangeSet{}, argError("arguments required")
+	}
 	raw, err := json.Marshal(args)
 	if err != nil {
 		return messages.ProposedChangeSet{}, argError("invalid arguments")
@@ -175,13 +183,64 @@ func parseProposedChangeSet(args map[string]any) (messages.ProposedChangeSet, er
 	if err := json.Unmarshal(raw, &cs); err != nil {
 		return messages.ProposedChangeSet{}, argError("invalid proposed change set")
 	}
-	if cs.WorkspaceID == "" {
-		return messages.ProposedChangeSet{}, argError("workspace_id required")
+	if len(cs.Changes) == 0 {
+		path, _ := args["path"].(string)
+		if path != "" {
+			op, _ := args["operation"].(string)
+			content, _ := args["content"].(string)
+			cs.Changes = []messages.FileChange{{
+				Path:      path,
+				Operation: messages.ChangeOperation(op),
+				Content:   content,
+			}}
+		}
 	}
-	if cs.ChangeSetID == "" {
-		return messages.ProposedChangeSet{}, argError("change_set_id required")
+	ws, err := resolveProposeWorkspace(workspaces, cs.WorkspaceID)
+	if err != nil {
+		return messages.ProposedChangeSet{}, err
+	}
+	cs.WorkspaceID = ws.ID
+	if ids.Validate(ids.ChangeSet, cs.ChangeSetID) != nil {
+		cs.ChangeSetID = ids.MustNew(ids.ChangeSet)
+	}
+	if err := fillBaseHashes(ws, cs.Changes, maxBytes); err != nil {
+		return messages.ProposedChangeSet{}, err
 	}
 	return cs, nil
+}
+
+// resolveProposeWorkspace는 유효한 WS ID면 Get, 아니면 등록이 하나일 때 그걸 쓴다.
+func resolveProposeWorkspace(workspaces *workspace.Registry, workspaceID string) (*workspace.Workspace, error) {
+	if workspaces == nil {
+		return nil, argError("workspace registry is required")
+	}
+	if ids.Validate(ids.Workspace, workspaceID) == nil {
+		return workspaces.Get(workspaceID)
+	}
+	return workspaces.Sole()
+}
+
+// fillBaseHashes는 MODIFY/DELETE/RENAME에 현재 파일 해시를 넣는다. 없으면 Propose가 거절한다.
+func fillBaseHashes(ws *workspace.Workspace, changes []messages.FileChange, maxBytes int64) error {
+	for i := range changes {
+		op := messages.ChangeOperation(strings.ToUpper(string(changes[i].Operation)))
+		if op == "" {
+			op = messages.OpModify
+		}
+		changes[i].Operation = op
+		if op != messages.OpModify && op != messages.OpDelete && op != messages.OpRename {
+			continue
+		}
+		if changes[i].BaseHash != "" {
+			continue
+		}
+		res, err := ws.ReadTextFile(changes[i].Path, maxBytes)
+		if err != nil {
+			return err
+		}
+		changes[i].BaseHash = res.Hash
+	}
+	return nil
 }
 
 func stringSliceArg(v any) ([]string, error) {

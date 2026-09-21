@@ -1,0 +1,19 @@
+---
+description: Protocol JSON/proto 필드는 snake_case. 기존 스키마와 맞춘다
+globs: "protocol/**/*.json, protocol/**/*.proto"
+alwaysApply: false
+---
+
+# Protocol 필드 네이밍
+
+JSON Schema와 protobuf 필드 이름은 **snake_case**다. 기존 계약을 깨지 않는다.
+
+```text
+call_id, work_item_id, timeout_ms, context_ref
+```
+
+- 단위는 접미사: `_ms`, `_bytes`, `_count`
+- protobuf 필드 번호는 재사용하지 않는다 (AGENTS.md)
+- JSON `additionalProperties: false`인 스키마에 임의 키를 넣지 않는다
+
+언어 매핑은 각 네이밍 규칙을 따른다 (Java `workItemId`, Go `WorkItemID`).

@@ -1,0 +1,59 @@
+{
+  "name": "oncode",
+  "displayName": "onCode",
+  "description": "Thin VS Code client for the onCode Local Agent. Does not read, write, build, or test the workspace.",
+  "version": "0.1.0",
+  "publisher": "oncode",
+  "icon": "media/icon.png",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "onCommand:oncode.chat.send",
+    "onCommand:oncode.reconnect"
+  ],
+  "main": "./out/main.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "oncode.reconnect",
+        "title": "onCode: Reconnect to Local Agent"
+      },
+      {
+        "command": "oncode.chat.send",
+        "title": "onCode: Send Chat"
+      }
+    ],
+    "configuration": {
+      "title": "onCode",
+      "properties": {
+        "oncode.agentStateDir": {
+          "type": "string",
+          "default": "",
+          "description": "Local Agent state directory that contains ide-ipc.json. Empty uses ONCODE_AGENT_STATE_DIR or the platform user config dir."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p . && npm run bundle",
+    "bundle": "esbuild extension/activate.ts --bundle --external:vscode --platform=node --format=cjs --outfile=out/main.js",
+    "test": "tsc -p . && node --test out/tests/*.js",
+    "vscode:prepublish": "npm run compile",
+    "package": "npm run compile && npx --yes @vscode/vsce package --allow-missing-repository"
+  },
+  "dependencies": {
+    "ws": "^8.18.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/vscode": "^1.90.0",
+    "@types/ws": "^8.5.13",
+    "esbuild": "^0.25.9",
+    "typescript": "^5.7.2"
+  }
+}

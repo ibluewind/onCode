@@ -9,9 +9,11 @@
 | [`adr/`](adr/) | Architecture Decision Records ADR-001 ~ ADR-012 |
 | [`tasks/`](tasks/) | 단계별 실행 태스크 명세 |
 | [`plans/`](plans/) | 일별 작업 계획 `YYYY-MM-DD-작업계획.md` |
+| [`results/`](results/) | 구현 내용·테스트 방식·결과 `YYYY-MM-DD-구현결과.md` |
 | [`issues/`](issues/) | 이슈 `open.md` / `resolve.md` |
 | [`logs/`](logs/) | 일별 작업 로그 `YYYY-MM-DD.md` |
 | [`HANDOFF.md`](HANDOFF.md) | 다음 세션 인수인계 |
+| [`LOCAL_RUN.md`](LOCAL_RUN.md) | 현재 기준 로컬 실행·사용 (server / local-agent / IDE) |
 
 ## Implementation tasks
 
